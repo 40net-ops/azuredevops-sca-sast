@@ -13,7 +13,7 @@ stages:
     steps:
     - checkout: self
     
-    - task: AzureCLI@2
+    - task: CmdLine@2
       displayName: 'FortiCNAPP SCA'
       inputs:
         azureSubscription: $(azureServiceConnection)
