@@ -17,7 +17,7 @@ stages:
       displayName: 'FortiCNAPP SCA'
       inputs:
         script: |
-            ls -la $(workingDirectory)
+            ls -la $(Build.SourcesDirectory)
 
             echo "Running FortiCNAPP SCA / SAST checks." 
 
@@ -38,6 +38,6 @@ stages:
             -e CI_PLATFORM=AzureDevOps \
             -e WORKSPACE=src \
             -e EXIT_FLAG='high' \
-            -v $(workingDirectory):/app/src:rw \
+            -v $(Build.SourcesDirectory):/app/src:rw \
             docker.io/lacework/codesec:stable lacework sca scan --directory=.
 
