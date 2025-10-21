@@ -16,11 +16,7 @@ stages:
     - task: CmdLine@2
       displayName: 'FortiCNAPP SCA'
       inputs:
-        azureSubscription: $(azureServiceConnection)
-        scriptType: 'bash'
-        scriptLocation: 'inlineScript'
-        workingDirectory: $(workingDirectory)
-        inlineScript: |
+        script: |
             ls -la $(workingDirectory)
 
             echo "Running FortiCNAPP SCA / SAST checks." 
@@ -42,6 +38,6 @@ stages:
             -e CI_PLATFORM=AzureDevOps \
             -e WORKSPACE=src \
             -e EXIT_FLAG='high' \
-            -v $(System.DefaultWorkingDirectory):/app/src:rw \
+            -v $(workingDirectory):/app/src:rw \
             docker.io/lacework/codesec:stable lacework sca scan --directory=.
 
