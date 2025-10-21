@@ -1,0 +1,47 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+- stage: FortiCNAPPSCA
+  displayName: 'FortiCNAPP - SCA / SAST'
+  jobs:
+  - job: SCAScan
+    displayName: 'FortiCNAPP SCA Scan'
+    steps:
+    - checkout: self
+    
+    - task: AzureCLI@2
+      displayName: 'FortiCNAPP SCA'
+      inputs:
+        azureSubscription: $(azureServiceConnection)
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        workingDirectory: $(workingDirectory)
+        inlineScript: |
+            ls -la $(workingDirectory)
+
+            echo "Running FortiCNAPP SCA / SAST checks." 
+
+            echo "[debug] LW_ACCOUNT: $(LW_ACCOUNT), LW_API_KEY: $(LW_API_KEY), LW_API_SECRET: $(LW_API_SECRET)"
+            echo "[debug] Build.BuildId: $(Build.BuildId)"
+            echo "[debug] Build.DefinitionName: $(Build.DefinitionName)"
+            echo "[debug] Build.Repository.Uri: $(Build.Repository.Uri)"
+
+            docker run \
+            -e LW_ACCOUNT=$(LW_ACCOUNT) \
+            -e LW_API_KEY=$(LW_API_KEY) \
+            -e LW_API_SECRET=$(LW_API_SECRET) \
+            -e CI_PIPELINE_NAME=$(Build.DefinitionName) \
+            -e CI_BUILD_ID=$(Build.BuildId) \
+            -e CI_PIPELINE_URL=$(Build.Repository.Uri) \
+            -e CI_BUILD_URL=$(Build.Repository.Uri) \
+            -e CI_REPO_URL=$(Build.Repository.Uri) \
+            -e CI_PLATFORM=AzureDevOps \
+            -e WORKSPACE=src \
+            -e EXIT_FLAG='high' \
+            -v $(System.DefaultWorkingDirectory):/app/src:rw \
+            docker.io/lacework/codesec:stable lacework sca scan --directory=.
+
