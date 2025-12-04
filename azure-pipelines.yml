@@ -26,6 +26,17 @@ stages:
             echo "[debug] Build.DefinitionName: $(Build.DefinitionName)"
             echo "[debug] Build.Repository.Uri: $(Build.Repository.Uri)"
 
+            echo "Extracting clean branch name from: $(Build.SourceBranch)"
+            BRANCH_NAME=$(echo $(Build.SourceBranch) | sed 's#refs/heads/##')
+
+            echo "Fetching branch: $BRANCH_NAME"
+            git fetch origin $BRANCH_NAME:$BRANCH_NAME
+  
+            echo "Checking out branch: $BRANCH_NAME"
+            git checkout $BRANCH_NAME
+    
+            echo "Now on branch: $(git branch --show-current)"
+
             docker run \
             -e LW_ACCOUNT=$(LW_ACCOUNT) \
             -e LW_API_KEY=$(LW_API_KEY) \
