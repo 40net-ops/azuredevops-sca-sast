@@ -28,6 +28,7 @@ stages:
 
             echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
             echo "Extracting clean branch name from: $(Build.SourceBranch)"
+            echo "Now on branch: $(git branch --show-current)"
             BRANCH_NAME=$(echo $(Build.SourceBranch) | sed 's#refs/heads/##')
 
             echo "Fetching branch: $BRANCH_NAME"
