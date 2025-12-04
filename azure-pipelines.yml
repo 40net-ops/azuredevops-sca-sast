@@ -58,7 +58,7 @@ stages:
             -e WORKSPACE=src \
             -e EXIT_FLAG=low \
             -v $(Build.SourcesDirectory):/app/src:rw \
-            docker.io/lacework/codesec:stable lacework sca scan /app/src --save-results
+            docker.io/lacework/codesec:stable lacework sca scan /app/src --save-results --debug
 
             echo "return value: $?"
 
