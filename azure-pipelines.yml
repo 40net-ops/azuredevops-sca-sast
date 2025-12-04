@@ -34,6 +34,12 @@ stages:
             echo "git branch"
             git branch
 
+            if git symbolic-ref -q HEAD > /dev/null; then
+              echo "✓ On a branch: $(git branch --show-current)"
+            else
+              echo "⚠ DETACHED HEAD at commit: $(git rev-parse --short HEAD)"
+            fi
+
             BRANCH_NAME=$(echo $(Build.SourceBranch) | sed 's#refs/heads/##')
 
             echo "Fetching branch: $BRANCH_NAME"
@@ -55,8 +61,6 @@ stages:
             -e CI_BUILD_URL=$(Build.Repository.Uri) \
             -e CI_REPO_URL=$(Build.Repository.Uri) \
             -e CI_PLATFORM=AzureDevOps \
-            -e WORKSPACE=src \
-            -e EXIT_FLAG=low \
             -v $(Build.SourcesDirectory):/app/src:rw \
             docker.io/lacework/codesec:stable lacework sca scan /app/src --save-results --debug
 
