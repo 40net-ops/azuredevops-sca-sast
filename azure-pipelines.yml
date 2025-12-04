@@ -28,13 +28,13 @@ stages:
 
             echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
             echo "Extracting clean branch name from: $(Build.SourceBranch)"
-            #BRANCH_NAME=$(echo $(Build.SourceBranch) | sed 's#refs/heads/##')
+            BRANCH_NAME=$(echo $(Build.SourceBranch) | sed 's#refs/heads/##')
 
             echo "Fetching branch: $BRANCH_NAME"
-            #git fetch origin $BRANCH_NAME:$BRANCH_NAME
+            git fetch origin $BRANCH_NAME:$BRANCH_NAME
   
             echo "Checking out branch: $BRANCH_NAME"
-            #git checkout $BRANCH_NAME
+            git checkout $BRANCH_NAME
     
             echo "Now on branch: $(git branch --show-current)"
             echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
