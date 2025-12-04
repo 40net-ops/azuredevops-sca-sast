@@ -56,7 +56,7 @@ stages:
             -e CI_REPO_URL=$(Build.Repository.Uri) \
             -e CI_PLATFORM=AzureDevOps \
             -e WORKSPACE=src \
-            -e EXIT_FLAG='high' \
+            -e EXIT_FLAG=low \
             -v $(Build.SourcesDirectory):/app/src:rw \
             docker.io/lacework/codesec:stable lacework sca scan /app/src --save-results
 
