@@ -1,0 +1,9 @@
+# Run (dev)
+python -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+python app/main.py
+# Endpoints:
+# /vuln/sqli?q=<payload>
+# /vuln/xss?name=<payload>
+# /vuln/unpickle  (POST raw pickle bytes)
+# /vuln/secret

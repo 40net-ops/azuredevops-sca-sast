@@ -1,0 +1,14 @@
+<!doctype html>
+<html>
+  <body>
+    <h1>Messages</h1>
+    {% for id, name, message in rows %}
+      <div>
+        <strong>{{ name }}</strong>: 
+        <!-- intentionally rendered unsafely -->
+        {{ message | safe }}
+      </div>
+    {% endfor %}
+  </body>
+</html>
+

@@ -17,25 +17,27 @@ stages:
       displayName: 'FortiCNAPP SCA'
       inputs:
         script: |
-            ls -la $(Build.SourcesDirectory)
-
+            echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
             echo "Running FortiCNAPP SCA / SAST checks." 
+            echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
 
-            echo "[debug] LW_ACCOUNT: $(LW_ACCOUNT), LW_API_KEY: $(LW_API_KEY), LW_API_SECRET: $(LW_API_SECRET)"
-            echo "[debug] Build.BuildId: $(Build.BuildId)"
-            echo "[debug] Build.DefinitionName: $(Build.DefinitionName)"
-            echo "[debug] Build.Repository.Uri: $(Build.Repository.Uri)"
+            # echo "[debug] LW_ACCOUNT: $(LW_ACCOUNT), LW_API_KEY: $(LW_API_KEY), LW_API_SECRET: $(LW_API_SECRET)"
+            # echo "[debug] Build.BuildId: $(Build.BuildId)"
+            # echo "[debug] Build.DefinitionName: $(Build.DefinitionName)"
+            # echo "[debug] Build.Repository.Uri: $(Build.Repository.Uri)"
 
+            echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
             echo "Extracting clean branch name from: $(Build.SourceBranch)"
-            BRANCH_NAME=$(echo $(Build.SourceBranch) | sed 's#refs/heads/##')
+            #BRANCH_NAME=$(echo $(Build.SourceBranch) | sed 's#refs/heads/##')
 
             echo "Fetching branch: $BRANCH_NAME"
-            git fetch origin $BRANCH_NAME:$BRANCH_NAME
+            #git fetch origin $BRANCH_NAME:$BRANCH_NAME
   
             echo "Checking out branch: $BRANCH_NAME"
-            git checkout $BRANCH_NAME
+            #git checkout $BRANCH_NAME
     
             echo "Now on branch: $(git branch --show-current)"
+            echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
 
             docker run \
             -e LW_ACCOUNT=$(LW_ACCOUNT) \
@@ -52,3 +54,6 @@ stages:
             -v $(Build.SourcesDirectory):/app/src:rw \
             docker.io/lacework/codesec:stable lacework sca scan /app/src --save-results
 
+            echo "return value: $?"
+
+            echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="

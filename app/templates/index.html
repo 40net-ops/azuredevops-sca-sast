@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+  <body>
+    <h1>Demo App</h1>
+    <form action="/submit" method="post">
+      Name: <input name="name"><br/>
+      Message: <textarea name="message"></textarea><br/>
+      <button>Send</button>
+    </form>
+
+    <h2>Reflected demo</h2>
+    <a href="/?name=<script>alert('reflected')</script>">Reflected XSS sample</a>
+
+    <h2>Stored messages</h2>
+    <a href="/messages">View messages (stored XSS)</a>
+  </body>
+</html>
+
